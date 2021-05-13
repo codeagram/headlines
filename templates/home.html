@@ -1,0 +1,15 @@
+<html>
+    <head>
+        <title>RSS Feed</title>
+        <link rel="favicon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    </head>
+    <body>
+        <h1>Head Lines</h1>
+        {% for article in articles %}
+        <b><a href="{{ article.link }}">{{ article.title }}</a></b><br>
+            <i>{{ article.published }}</i><br>
+            <p>{{ article.summary }}</p><br>
+            <hr>
+        {% endfor %}
+    </body>
+</html>
