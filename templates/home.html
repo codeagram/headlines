@@ -1,45 +1,101 @@
 <html>
     <head>
-        <title>RSS Feed</title>
-        <link rel="favicon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+        <title>Head Lines</title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<style>
+
+                html {
+                    background: white;
+                    font-family: "Helvetica";
+                }
+
+                 body {
+                    background: lightgrey;
+                    max-width: 900px;
+                    margin: 0 auto;
+                 }
+
+                 #header {
+                    padding-top: 5;
+                    background: lightsteelblue;
+                 }
+
+                 #inner-header {
+                    padding-left: 10;
+                 }
+
+                 #main {
+                    padding-left: 10;
+                 }
+
+                 .input {
+                    color: grey;
+                    border: 1px solid lightsteelblue;
+                    height: 30px;
+                    line-height: 15px;
+                    margin: 2px 6px 16px 0px;
+                 }
+
+                 .btn {
+                    padding: 5px 10px 5px 10px;
+                    color: black;
+                    background: lightsteelblue;
+                    border: none;
+                    box-shadow: 1px 1px 1px #4C6E91;
+                 }
+
+                 .btn:hover {
+                    background: steelblue;
+
+                 }
+
+</style>
     </head>
     <body>
-        <h1>Head Lines</h1>
-        <h2>Current Weather</h2>
-        <form>
-            <input type="text" name="city" placeholder="Weather Search">
-            <input type="submit" value="Submit">
-        </form>
-        <p>{{ weather.city }}, {{ weather.country }}</p>
-        <p>{{ weather.description }} | {{ weather.temperature }}&#8451;</p>
-        <h2>Currency</h2>
-        <form>
-            From:<select name="currency_from">
-                 {% for currency in currencies %}
-                    <option value="{{currency}}"
-                            {{'selected="selected"' if currency_from==currency}}>{{currency}}</option>
-                {% endfor %}
-                </select>
-            To:<select name="currency_to">
+        <div id="header">
+            <div id="inner-header">
+                <h1>Head Lines</h1>
+                <p>Headlines. Currency. Weather</p>
+            </div>
+            <hr>
+        </div>
+        <div id="main">
+            <h2>Current Weather</h2>
+            <form>
+                <input autocomplete="off" class="input" type="text" name="city" placeholder="Weather Search">
+                <input class="btn" type="submit" value="Submit">
+            </form>
+            <p>{{ weather.city }}, {{ weather.country }}</p>
+            <p>{{ weather.description }} | {{ weather.temperature }}&#8451;</p>
+            <h2>Currency</h2>
+            <form>
+                From:<select class="input" name="currency_from">
                     {% for currency in currencies %}
                         <option value="{{currency}}"
-                            {{'selected="selected"' if currency_to==currency}}>{{currency}}</option>
+                                {{'selected="selected"' if currency_from==currency}}>{{currency}}</option>
                     {% endfor %}
-                </select>
-                <input type="submit" value="Submit">
-        </form>
+                    </select>
+                To:<select class="input" name="currency_to">
+                        {% for currency in currencies %}
+                            <option value="{{currency}}"
+                                {{'selected="selected"' if currency_to==currency}}>{{currency}}</option>
+                        {% endfor %}
+                    </select>
+                    <input class="btn" type="submit" value="Submit">
+            </form>
 
-        {{ currency_from }} = {{ currency_to }} {{ rate }}
-        <h2>Head lines</h2>
-        <form>
-            <input type="text" name="publication" placeholder="Search">
-            <input type="submit" value="Submit">
-        </form>
-        {% for article in articles %}
-        <b><a href="{{ article.link }}">{{ article.title }}</a></b><br>
-            <i>{{ article.published }}</i><br>
-            <p>{{ article.summary }}</p><br>
-            <hr>
-        {% endfor %}
+            {{ currency_from }} = {{ currency_to }} {{ rate }}
+            <h2>Head lines</h2>
+            <form>
+                <input class="input" autocomplete="off" type="text" name="publication" placeholder="Search">
+                <input class="btn" type="submit" value="Submit">
+            </form>
+            {% for article in articles %}
+                <b><a href="{{ article.link }}">{{ article.title }}</a></b><br>
+                <i>{{ article.published }}</i><br>
+                <p>{{ article.summary }}</p><br>
+                <hr>
+            {% endfor %}
+        </div>
     </body>
 </html>
