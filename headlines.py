@@ -1,5 +1,7 @@
 import feedparser
 from flask import Flask, render_template, request
+import json
+import urllib.request
 
 
 app = Flask(__name__)
@@ -27,9 +29,26 @@ def get_news():
         publication = query.lower()
 
     feed = feedparser.parse(RSS_FEEDS[publication])
+    weather = get_weather("Republic Of India,IN")
+
+    return render_template("home.html", articles=feed['entries'], weather=weather)
 
 
-    return render_template("home.html", articles=feed['entries'])
+def get_weather(query):
+
+    api_url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid=b8140f6c81b641f99751926b0d964f9f'
+    query = urllib.request.quote(query)
+    url = api_url.format(query)
+    data = urllib.request.urlopen(url).read()
+    parsed = json.loads(data)
+    weather = None
+    if parsed.get("weather"):
+        weather = {"description": parsed["weather"][0]["description"],
+                    "temperature": parsed["main"]["temp"],
+                    "city": parsed["name"]
+                    }
+
+    return weather
 
 
 if __name__ == "__main__":
